@@ -63,7 +63,7 @@ export default function LogoCarousel({
       <div className="flex flex-col gap-4 relative">
         <h3
           className={`text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 sm:mb-6 font-sans ${
-            isDark ? "text-cyan-300" : "text-sky-700"
+            isDark ? "text-cyan-300" : "text-blue-900"
           }`}
         >
           {title}

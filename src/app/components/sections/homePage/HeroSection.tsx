@@ -1,22 +1,67 @@
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import img1 from "../../../../assets/images/homePage/photos/image4.png";
-import img2 from "../../../../assets/images/homePage/photos/image5.png";
-import img3 from "../../../../assets/images/homePage/photos/image8.png";
 
 interface HeroSectionProps {
   isDark: boolean;
 }
 
-const heroImages = [img1, img2, img3];
+interface CloudinaryResource {
+  public_id?: string;
+  format?: string;
+  version?: number;
+}
+
+const cloudinaryListUrl =
+  "https://res.cloudinary.com/dcvuaqnah/image/list/HomePage-HeroSection.json";
+const cloudName = "dcvuaqnah";
 
 export function HeroSection({ isDark }: HeroSectionProps) {
+  const [heroImages, setHeroImages] = useState<string[]>([]);
   const [currentHeroImg, setCurrentHeroImg] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadHeroImages = async () => {
+      try {
+        const response = await fetch(cloudinaryListUrl, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Cloudinary image list request failed: ${response.status}`,
+          );
+        }
+
+        const data: { resources?: CloudinaryResource[] } =
+          await response.json();
+        const images = (data.resources ?? [])
+          .map(({ public_id, format, version }) =>
+            public_id
+              ? `https://res.cloudinary.com/${cloudName}/image/upload/${version ? `v${version}/` : ""}${public_id}${format ? `.${format}` : ""}`
+              : "",
+          )
+          .filter((url): url is string => Boolean(url));
+
+        setHeroImages(images);
+        setCurrentHeroImg(0);
+      } catch {
+        if (!controller.signal.aborted) {
+          setHeroImages([]);
+        }
+      }
+    };
+
+    void loadHeroImages();
+
+    return () => controller.abort();
+  }, []);
 
   const nextHeroImg = useCallback(() => {
     if (heroImages.length === 0) return;
     setCurrentHeroImg((prev) => (prev + 1) % heroImages.length);
-  }, []);
+  }, [heroImages.length]);
 
   const prevHeroImg = () => {
     if (heroImages.length === 0) return;

@@ -53,10 +53,10 @@ export function TeamSection({ isDark }: TeamSectionProps) {
             return (
               <div
                 key={t.name}
-                className={`rounded-3xl p-8 sm:p-10 flex flex-col items-center justify-center gap-6 min-h-56 transition-transform transition-colors duration-300 transform hover:scale-105 hover:shadow-lg cursor-pointer ${
+                className={`rounded-3xl p-8 sm:p-10 flex flex-col items-center justify-center gap-6 min-h-56 transition-transform duration-400 transform hover:scale-105 hover:shadow-lg cursor-pointer ${
                   isDark
                     ? "bg-[#0d2137]/60 border border-cyan-400/20 hover:border-cyan-400/70 text-white"
-                    : "bg-white border border-blue-100 hover:border-blue-300 text-blue-900"
+                    : "bg-white border border-blue-100 hover:border-blue-300 text-blue-950"
                 }`}
               >
                 <div
