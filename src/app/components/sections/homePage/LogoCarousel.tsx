@@ -18,6 +18,7 @@ export default function LogoCarousel({
   const animationName = direction === "left" ? "marquee-left" : "marquee-right";
   const groupRef = useRef<HTMLDivElement | null>(null);
   const [marqueeDistance, setMarqueeDistance] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useLayoutEffect(() => {
     const groupElement = groupRef.current;
@@ -42,12 +43,12 @@ export default function LogoCarousel({
     LOGOS.map((logo, index) => (
       <div
         key={`${direction}-${groupKey}-${index}`}
-        className="shrink-0 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-700 cursor-pointer"
+        className="shrink-0 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-700 cursor-pointer relative hover:z-20"
       >
         <img
           src={logo}
           alt={`image-${index}`}
-          className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl"
+          className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl transition-transform duration-300 ease-out hover:scale-110 transform-gpu"
         />
       </div>
     ));
@@ -63,19 +64,24 @@ export default function LogoCarousel({
           {title}
         </h3>
         <div
-          className="flex overflow-hidden group"
+          className="flex overflow-hidden py-4 sm:py-6"
           style={{
-            maskImage:
-              "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            maskImage: isHovered
+              ? "none"
+              : "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage: isHovered
+              ? "none"
+              : "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
           }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <div
-            className="flex items-center w-max group-hover:[animation-play-state:paused]"
+            className="flex items-center w-max"
             style={
               {
                 animation: `${animationName} ${durationSeconds}s linear infinite`,
+                animationPlayState: isHovered ? "paused" : "running",
                 willChange: "transform",
                 ["--marquee-distance" as unknown as string]: `${marqueeDistance}px`,
               } as CSSProperties
