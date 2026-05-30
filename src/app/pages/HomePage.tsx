@@ -1,5 +1,6 @@
 import {
   ActivitiesSection,
+  TeamSection,
   QaASection,
   HeroSection,
   // IntroSection,
@@ -21,6 +22,7 @@ export default function HomePage({ isDark }: HomePageProps) {
       >
         {/* <IntroSection isDark={isDark} /> */}
         <ActivitiesSection isDark={isDark} />
+        <TeamSection isDark={isDark} />
         <QaASection isDark={isDark} />
       </div>
     </div>

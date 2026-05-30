@@ -42,7 +42,7 @@ export default function LogoCarousel({
     LOGOS.map((logo, index) => (
       <div
         key={`${direction}-${groupKey}-${index}`}
-        className="shrink-0 hover:opacity-100 transition-all duration-400 cursor-pointer relative group"
+        className="shrink-0 transition-all duration-400 cursor-pointer relative group"
         onMouseEnter={() => {
           setIsImageHovered(true);
         }}
