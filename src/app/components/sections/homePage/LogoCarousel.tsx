@@ -2,17 +2,25 @@ interface LogoCarousel_Props {
   direction: "left" | "right";
   LOGOS: string[];
   title: string;
+  isDark: boolean;
 }
 
 export default function LogoCarousel({
   LOGOS,
   direction,
   title,
+  isDark,
 }: LogoCarousel_Props) {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 relative py-5">
       <div className="flex flex-col gap-4 relative">
-        <h1>{title}</h1>
+        <h3
+          className={`text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 sm:mb-6 font-sans ${
+            isDark ? "text-cyan-300" : "text-sky-700"
+          }`}
+        >
+          {title}
+        </h3>
         <div
           className="flex overflow-hidden group"
           style={{
@@ -33,7 +41,7 @@ export default function LogoCarousel({
                 <img
                   src={logo}
                   alt={`image-${index}`}
-                  className="h-28 md:h-36 w-auto object-contain rounded-2xl"
+                  className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl"
                 />
               </div>
             ))}
