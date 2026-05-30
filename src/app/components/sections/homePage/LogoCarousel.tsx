@@ -7,14 +7,6 @@ interface LogoCarousel_Props {
   isDark: boolean;
 }
 
-// type HoveredLogo = {
-//   src: string;
-//   left: number;
-//   top: number;
-//   width: number;
-//   height: number;
-// };
-
 export default function LogoCarousel({
   LOGOS,
   direction,
@@ -61,7 +53,7 @@ export default function LogoCarousel({
         <img
           src={logo}
           alt={`image-${index}`}
-          className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl transition-transform duration-400 ease-in-out group-hover:scale-110 transform-gpu"
+          className="w-full max-w-100 h-48 sm:h-52 md:h-60 object-cover rounded-2xl transition-transform duration-400 ease-in-out group-hover:scale-110 transform-gpu"
         />
       </div>
     ));
@@ -91,7 +83,7 @@ export default function LogoCarousel({
               className="flex items-center w-max"
               style={
                 {
-                  animation: `${animationName} 15s linear infinite`,
+                  animation: `${animationName} 30s linear infinite`,
                   animationPlayState: isImageHovered ? "paused" : "running",
                   willChange: "transform",
                   ["--marquee-distance" as unknown as string]: `${marqueeDistance}px`,
