@@ -1,7 +1,6 @@
 import {
   ActivitiesSection,
   QaASection,
-  FooterSection,
   HeroSection,
   // IntroSection,
 } from "../components/sections/homePage/index";
@@ -23,7 +22,6 @@ export default function HomePage({ isDark }: HomePageProps) {
         {/* <IntroSection isDark={isDark} /> */}
         <ActivitiesSection isDark={isDark} />
         <QaASection isDark={isDark} />
-        <FooterSection isDark={isDark} />
       </div>
     </div>
   );

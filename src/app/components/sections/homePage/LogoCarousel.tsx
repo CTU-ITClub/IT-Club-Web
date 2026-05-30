@@ -5,7 +5,6 @@ interface LogoCarousel_Props {
   LOGOS: string[];
   title: string;
   isDark: boolean;
-  durationSeconds?: number;
 }
 
 // type HoveredLogo = {
@@ -21,7 +20,6 @@ export default function LogoCarousel({
   direction,
   title,
   isDark,
-  durationSeconds = 40,
 }: LogoCarousel_Props) {
   const animationName = direction === "left" ? "marquee-left" : "marquee-right";
   const groupRef = useRef<HTMLDivElement | null>(null);
@@ -93,7 +91,7 @@ export default function LogoCarousel({
               className="flex items-center w-max"
               style={
                 {
-                  animation: `${animationName} ${durationSeconds}s linear infinite`,
+                  animation: `${animationName} 15s linear infinite`,
                   animationPlayState: isImageHovered ? "paused" : "running",
                   willChange: "transform",
                   ["--marquee-distance" as unknown as string]: `${marqueeDistance}px`,

@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import ThemeToggle from "./ThemeToggle";
+import { FooterSection } from "./FooterSection";
 
 interface MainLayoutProps {
   isDark: boolean;
@@ -13,6 +14,7 @@ export default function MainLayout({ isDark, onToggle }: MainLayoutProps) {
       <ThemeToggle isDark={isDark} onToggle={onToggle} />
       <Header isDark={isDark} />
       <Outlet />
+      <FooterSection isDark={isDark} />
     </div>
   );
 }

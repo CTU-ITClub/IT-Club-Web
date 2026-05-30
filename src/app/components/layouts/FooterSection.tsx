@@ -1,8 +1,15 @@
+import { NavLink } from "react-router-dom";
+
 interface FooterSectionProps {
   isDark: boolean;
 }
 
-const navItems = ["Trang chủ", "Giới thiệu", "Nhân sự", "Hoạt động"];
+const navItems = [
+  { label: "Trang chủ", to: "/" },
+  { label: "Giới thiệu", to: "/about" },
+  { label: "Nhân sự", to: "/staff" },
+  { label: "Hoạt động", to: "/activities" },
+];
 const socials = ["facebook", "github"];
 const linkSocials = [
   "https://www.facebook.com/ctuit.club",
@@ -93,19 +100,19 @@ export function FooterSection({ isDark }: FooterSectionProps) {
             >
               Liên kết
             </h3>
-            <nav className="space-y-3">
+            <nav className="space-y-3 flex flex-col items-start">
               {navItems.map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
-                  className={`block text-base sm:text-lg transition-colors hover:translate-x-2 transform duration-200 font-sans ${
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  className={`block text-base sm:text-lg transition-colors transform duration-200 font-stretch-semi-expanded ${
                     isDark
                       ? "text-white hover:text-cyan-400"
                       : "text-slate-700 hover:text-blue-600"
                   }`}
                 >
-                  {item}
-                </a>
+                  {item.label}
+                </NavLink>
               ))}
             </nav>
           </div>
@@ -158,7 +165,6 @@ export function FooterSection({ isDark }: FooterSectionProps) {
             className={`text-center text-base sm:text-lg ${
               isDark ? "text-white/70" : "text-slate-600"
             }`}
-            style={{ fontFamily: "Roboto, sans-serif" }}
           >
             © 2026 Can Tho IT Club. All rights reserved.
           </p>
