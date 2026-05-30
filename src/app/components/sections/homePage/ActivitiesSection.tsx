@@ -47,18 +47,21 @@ export function ActivitiesSection({ isDark }: ActivitiesSection_Props) {
           direction="left"
           title="Workshop"
           isDark={isDark}
+          durationSeconds={15}
         />
         <LogoCarousel
           LOGOS={LOGOS_Game}
           direction="right"
           title="Game và tuyển sinh"
           isDark={isDark}
+          durationSeconds={15}
         />
         <LogoCarousel
           LOGOS={LOGOS_Exam}
           direction="left"
           title="Các cuộc thi"
           isDark={isDark}
+          durationSeconds={15}
         />
       </div>
     </section>

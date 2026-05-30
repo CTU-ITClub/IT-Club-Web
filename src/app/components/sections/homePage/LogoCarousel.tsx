@@ -1,16 +1,73 @@
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+
 interface LogoCarousel_Props {
   direction: "left" | "right";
   LOGOS: string[];
   title: string;
   isDark: boolean;
+  durationSeconds?: number;
 }
+
+// type HoveredLogo = {
+//   src: string;
+//   left: number;
+//   top: number;
+//   width: number;
+//   height: number;
+// };
 
 export default function LogoCarousel({
   LOGOS,
   direction,
   title,
   isDark,
+  durationSeconds = 40,
 }: LogoCarousel_Props) {
+  const animationName = direction === "left" ? "marquee-left" : "marquee-right";
+  const groupRef = useRef<HTMLDivElement | null>(null);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const [marqueeDistance, setMarqueeDistance] = useState(0);
+  const [isImageHovered, setIsImageHovered] = useState(false);
+
+  useLayoutEffect(() => {
+    const groupElement = groupRef.current;
+
+    if (!groupElement) {
+      return;
+    }
+
+    const updateDistance = () => {
+      setMarqueeDistance(groupElement.scrollWidth);
+    };
+
+    updateDistance();
+
+    const resizeObserver = new ResizeObserver(updateDistance);
+    resizeObserver.observe(groupElement);
+
+    return () => resizeObserver.disconnect();
+  }, [LOGOS]);
+
+  const renderLogos = (groupKey: string) =>
+    LOGOS.map((logo, index) => (
+      <div
+        key={`${direction}-${groupKey}-${index}`}
+        className="shrink-0 hover:opacity-100 transition-all duration-400 cursor-pointer relative group"
+        onMouseEnter={() => {
+          setIsImageHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsImageHovered(false);
+        }}
+      >
+        <img
+          src={logo}
+          alt={`image-${index}`}
+          className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl transition-transform duration-400 ease-in-out group-hover:scale-110 transform-gpu"
+        />
+      </div>
+    ));
+
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 relative py-5">
       <div className="flex flex-col gap-4 relative">
@@ -21,30 +78,41 @@ export default function LogoCarousel({
         >
           {title}
         </h3>
-        <div
-          className="flex overflow-hidden group"
-          style={{
-            maskImage:
-              "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-          }}
-        >
+        <div className="relative overflow-visible">
           <div
-            className={`flex animate-marquee-${direction} group-hover:[animation-play-state:paused] gap-8 md:gap-14 items-center w-max`}
+            ref={viewportRef}
+            className="flex overflow-hidden py-4 sm:py-6"
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            }}
           >
-            {[...LOGOS, ...LOGOS].map((logo, index) => (
+            <div
+              className="flex items-center w-max"
+              style={
+                {
+                  animation: `${animationName} ${durationSeconds}s linear infinite`,
+                  animationPlayState: isImageHovered ? "paused" : "running",
+                  willChange: "transform",
+                  ["--marquee-distance" as unknown as string]: `${marqueeDistance}px`,
+                } as CSSProperties
+              }
+            >
               <div
-                key={`${direction}-${index}`}
-                className="shrink-0 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-700 cursor-pointer"
+                ref={groupRef}
+                className="flex shrink-0 items-center gap-8 md:gap-14 pr-8 md:pr-14"
               >
-                <img
-                  src={logo}
-                  alt={`image-${index}`}
-                  className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl"
-                />
+                {renderLogos("a")}
               </div>
-            ))}
+              <div
+                className="flex shrink-0 items-center gap-8 md:gap-14"
+                aria-hidden="true"
+              >
+                {renderLogos("b")}
+              </div>
+            </div>
           </div>
         </div>
       </div>

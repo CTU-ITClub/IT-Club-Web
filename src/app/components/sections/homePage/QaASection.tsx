@@ -12,7 +12,7 @@ const faqs = [
       "Câu lạc bộ Tin học là nơi tập hợp những sinh viên đam mê công nghệ thông tin, cùng nhau học hỏi và phát triển kỹ năng lập trình.",
   },
   {
-    question: "Làm sao để tham gia CLB?",
+    question: "Làm thế nào để tham gia CLB?",
     answer:
       "Bạn có thể đăng ký tham gia thông qua form đăng ký trực tuyến hoặc liên hệ trực tiếp với ban quản trị CLB qua email hoặc fanpage.",
   },
