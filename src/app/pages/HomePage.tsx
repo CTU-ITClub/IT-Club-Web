@@ -1,5 +1,5 @@
 import {
-  // ActivitiesSection,
+  ActivitiesSection,
   // FaqSection,
   // FooterSection,
   HeroSection,
@@ -20,8 +20,8 @@ export default function HomePage({ isDark }: HomePageProps) {
       <div
         className={`${isDark ? "bg-linear-to-b from-[#0d2137] to-[#1a365d]" : "bg-linear-to-b from-slate-50 to-white"}`}
       >
-        {/* <IntroSection isDark={isDark} />
         <ActivitiesSection isDark={isDark} />
+        {/* <IntroSection isDark={isDark} />
         <FaqSection isDark={isDark} />
         <FooterSection isDark={isDark} /> */}
       </div>
