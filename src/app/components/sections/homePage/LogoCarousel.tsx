@@ -8,6 +8,14 @@ interface LogoCarousel_Props {
   durationSeconds?: number;
 }
 
+// type HoveredLogo = {
+//   src: string;
+//   left: number;
+//   top: number;
+//   width: number;
+//   height: number;
+// };
+
 export default function LogoCarousel({
   LOGOS,
   direction,
@@ -17,8 +25,9 @@ export default function LogoCarousel({
 }: LogoCarousel_Props) {
   const animationName = direction === "left" ? "marquee-left" : "marquee-right";
   const groupRef = useRef<HTMLDivElement | null>(null);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
   const [marqueeDistance, setMarqueeDistance] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isImageHovered, setIsImageHovered] = useState(false);
 
   useLayoutEffect(() => {
     const groupElement = groupRef.current;
@@ -43,12 +52,18 @@ export default function LogoCarousel({
     LOGOS.map((logo, index) => (
       <div
         key={`${direction}-${groupKey}-${index}`}
-        className="shrink-0 grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-700 cursor-pointer relative hover:z-20"
+        className="shrink-0 hover:opacity-100 transition-all duration-400 cursor-pointer relative group"
+        onMouseEnter={() => {
+          setIsImageHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsImageHovered(false);
+        }}
       >
         <img
           src={logo}
           alt={`image-${index}`}
-          className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl transition-transform duration-300 ease-out hover:scale-110 transform-gpu"
+          className="w-full h-48 sm:h-52 md:h-60 object-cover rounded-2xl transition-transform duration-400 ease-in-out group-hover:scale-110 transform-gpu"
         />
       </div>
     ));
@@ -63,41 +78,40 @@ export default function LogoCarousel({
         >
           {title}
         </h3>
-        <div
-          className="flex overflow-hidden py-4 sm:py-6"
-          style={{
-            maskImage: isHovered
-              ? "none"
-              : "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-            WebkitMaskImage: isHovered
-              ? "none"
-              : "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
+        <div className="relative overflow-visible">
           <div
-            className="flex items-center w-max"
-            style={
-              {
-                animation: `${animationName} ${durationSeconds}s linear infinite`,
-                animationPlayState: isHovered ? "paused" : "running",
-                willChange: "transform",
-                ["--marquee-distance" as unknown as string]: `${marqueeDistance}px`,
-              } as CSSProperties
-            }
+            ref={viewportRef}
+            className="flex overflow-hidden py-4 sm:py-6"
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            }}
           >
             <div
-              ref={groupRef}
-              className="flex shrink-0 items-center gap-8 md:gap-14 pr-8 md:pr-14"
+              className="flex items-center w-max"
+              style={
+                {
+                  animation: `${animationName} ${durationSeconds}s linear infinite`,
+                  animationPlayState: isImageHovered ? "paused" : "running",
+                  willChange: "transform",
+                  ["--marquee-distance" as unknown as string]: `${marqueeDistance}px`,
+                } as CSSProperties
+              }
             >
-              {renderLogos("a")}
-            </div>
-            <div
-              className="flex shrink-0 items-center gap-8 md:gap-14"
-              aria-hidden="true"
-            >
-              {renderLogos("b")}
+              <div
+                ref={groupRef}
+                className="flex shrink-0 items-center gap-8 md:gap-14 pr-8 md:pr-14"
+              >
+                {renderLogos("a")}
+              </div>
+              <div
+                className="flex shrink-0 items-center gap-8 md:gap-14"
+                aria-hidden="true"
+              >
+                {renderLogos("b")}
+              </div>
             </div>
           </div>
         </div>
