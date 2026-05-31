@@ -3,7 +3,7 @@ import {
   TeamSection,
   QaASection,
   HeroSection,
-  // IntroSection,
+  IntroSection,
 } from "../components/sections/homePage/index";
 
 interface HomePageProps {
@@ -20,7 +20,7 @@ export default function HomePage({ isDark }: HomePageProps) {
       <div
         className={`${isDark ? "bg-linear-to-b from-[#0d2137] to-[#1a365d]" : "bg-linear-to-b from-slate-50 to-white"}`}
       >
-        {/* <IntroSection isDark={isDark} /> */}
+        <IntroSection isDark={isDark} />
         <ActivitiesSection isDark={isDark} />
         <TeamSection isDark={isDark} />
         <QaASection isDark={isDark} />
