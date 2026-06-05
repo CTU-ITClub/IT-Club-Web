@@ -51,7 +51,7 @@ export default function Header({ isDark }: HeaderProps) {
           </button>
         </div>
         <nav
-          className={`flex flex-col md:flex-row md:flex-wrap gap-2 md:gap-6 lg:gap-8 rounded-2xl md:rounded-full px-3 md:px-0 py-3 md:py-0 ${
+          className={`flex flex-col md:flex-row md:flex-wrap gap-2 md:gap-6 lg:gap-8 rounded-2xl md:rounded-2xl px-3 md:px-0 py-3 md:py-0 ${
             isDark
               ? "bg-[#0b1c2e]/80 md:bg-transparent border border-cyan-400/20 md:border-0"
               : "bg-white/90 md:bg-transparent border border-blue-100 md:border-0"
@@ -62,7 +62,7 @@ export default function Header({ isDark }: HeaderProps) {
               key={item.label}
               to={item.to}
               className={({ isActive }) =>
-                `relative px-4 py-2 md:px-3 md:py-2 rounded-xl md:rounded-full font-semibold text-base sm:text-lg md:text-xl transition-all duration-300 ${
+                `relative px-4 py-2 md:px-3 md:py-2 rounded-xl md:rounded-2xl font-semibold text-base sm:text-lg md:text-xl transition-all duration-300 ${
                   isActive
                     ? isDark
                       ? "text-cyan-300 bg-cyan-400/15"

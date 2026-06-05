@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HashRouter } from "react-router-dom";
 import AppRoutes from "./app/routes/AppRoutes";
 
@@ -6,7 +6,14 @@ import AppRoutes from "./app/routes/AppRoutes";
 // sau này có đổi nền tàng thì đổi lại browser router để tốt cho SEO hơn
 
 export default function App() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
 
   const toggleTheme = () => setIsDark((prev) => !prev);
 
