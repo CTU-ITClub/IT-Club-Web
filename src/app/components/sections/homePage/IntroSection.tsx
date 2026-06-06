@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Rocket, Lightbulb } from "lucide-react";
 
 interface IntroSectionProps {
@@ -20,6 +21,20 @@ const Items = [
 ];
 
 export function IntroSection({ isDark }: IntroSectionProps) {
+  const [imageUrl, setImageUrl] = useState("https://res.cloudinary.com/dcvuaqnah/image/upload/v1780765921/image7_yq8igi.png");
+
+  useEffect(() => {
+    fetch("https://res.cloudinary.com/dcvuaqnah/image/list/HomePage-IntroSection.json")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.resources && data.resources.length > 0) {
+          const img = data.resources[0];
+          setImageUrl(`https://res.cloudinary.com/dcvuaqnah/image/upload/v${img.version}/${img.public_id}.${img.format}`);
+        }
+      })
+      .catch((err) => console.error("Error fetching IntroSection image:", err));
+  }, []);
+
   return (
     <section className="py-20 md:py-28 ">
       <div className="max-w-7xl mx-auto w-full  px-4 sm:px-6">
@@ -50,7 +65,7 @@ export function IntroSection({ isDark }: IntroSectionProps) {
           </div>
           <img
             className="cursor-pointer rounded-2xl shadow-lg w-full max-w-xl h-56 sm:h-64 md:h-92 lg:h-105 object-cover transition-transform duration-400 ease-out hover:scale-105 hover:-translate-y-1 transform-gpu"
-            src="https://scontent.fvca1-4.fna.fbcdn.net/v/t39.30808-6/657173409_1525823052697559_3491735791438855593_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFU15LjFtztxwgR1JkpSMgpJIv9Nkcu6gEki_02Ry7qASfpytdJ0XHXI07qezHW3jFhAs4Ay1X74LXojGz657uU&_nc_ohc=lA21II0idD8Q7kNvwEz1jnQ&_nc_oc=Adp_svQm0BhR5f158xTQKR_ldAa1mj08R2FBVFLiLeWgQGQpT5mACyuCTviv8pQL3kIt9blaf76cyc4WpsMQHTvs&_nc_zt=23&_nc_ht=scontent.fvca1-4.fna&_nc_gid=a__hopuEUEaLf6N0qUfUtw&_nc_ss=7b2a8&oh=00_Af_s_lvkecIG4XtkkM30tYnCueftzcZk_DmrRjnXPHugWQ&oe=6A218126"
+            src={imageUrl}
             alt="IT CLUB image"
           />
         </div>
